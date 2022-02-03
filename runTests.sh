@@ -7,9 +7,10 @@ TESTS=`find . | grep java$ | sed 's/^.\/index\///g' | sed 's/^.\/query\///g' | s
 cd $DIR
 cd ../angela-jackrabbit-oak/oak-search-elastic
 
+mvn install -Dmaven.test.skip > $DIR/tests.out
+
 COUNT=0
 TESTLIST=""
-echo "" > tests.out
 for TEST in $TESTS
 do
    : 
@@ -17,12 +18,12 @@ do
    COUNT=$[$COUNT+1]
    MOD=$[$COUNT % 5]
    if [ $MOD -eq 0 ]; then
-   	mvn -Dtest=$TESTLIST test >> tests.out
+   	mvn -Dtest=$TESTLIST test >> $DIR/tests.out
    	TESTLIST=""
    else
    	TESTLIST=$TESTLIST","
    fi
 done
-mvn -Dtest=$TESTLIST test >> tests.out
-cat tests.out | grep [ERROR]
+mvn -Dtest=$TESTLIST test >> $DIR/tests.out
+cat $DIR/tests.out | grep "Tests run" | grep ERROR
 cd $DIR
