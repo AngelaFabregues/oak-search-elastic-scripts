@@ -1,4 +1,5 @@
 #!/bin/bash
+SECONDS=0
 DIR=`pwd`
 cd ../angela-jackrabbit-oak/oak-search-elastic/src/test/java/org/apache/jackrabbit/oak/plugins/index/elastic/
 
@@ -27,3 +28,6 @@ done
 mvn -Dtest=$TESTLIST test >> $DIR/tests.out
 cat $DIR/tests.out | grep "Tests run" | grep ERROR
 cd $DIR
+
+duration=$SECONDS
+echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
