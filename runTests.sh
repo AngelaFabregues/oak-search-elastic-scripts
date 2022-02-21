@@ -1,14 +1,23 @@
 #!/bin/bash
 SECONDS=0
 DIR=`pwd`
-cd ../angela-jackrabbit-oak/oak-search-elastic/src/test/java/org/apache/jackrabbit/oak/plugins/index/elastic/
+LOCAL_REPO=angela-jackrabbit-oak
+
+if [ $# -gt 0 ]; then
+   LOCAL_REPO=angela-jackrabbit-oak-deploy
+fi
+echo "Using $LOCAL_REPO"
+
+cd ../${LOCAL_REPO}/oak-search-elastic/src/test/java/org/apache/jackrabbit/oak/plugins/index/elastic/
 
 TESTS=`find . | grep java$ | sed 's/^.\/index\///g' | sed 's/^.\/query\///g' | sed 's/^.\///g' | sed 's/.java$//g'`
 
 cd $DIR
-cd ../angela-jackrabbit-oak/oak-search-elastic
+cd ../${LOCAL_REPO}/oak-search-elastic
 
-mvn install -Dmaven.test.skip > $DIR/tests.out
+mvn clean install -Dmaven.test.skip > $DIR/tests.out
+
+echo "Compiled"
 
 COUNT=0
 TESTLIST=""
